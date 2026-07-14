@@ -384,6 +384,8 @@ h2.center{text-align:center;}
 .contact-actions{
   display:flex;
   justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
   margin:32px 0 18px;
 }
 .contact-email a{color:var(--accent);font-weight:600;}
