@@ -271,6 +271,7 @@ h2{font-weight:800;font-size:36px;}
   transition:transform .25s, box-shadow .25s;
 }
 .pf-tile:hover{transform:translateY(-5px);box-shadow:0 30px 56px -26px color-mix(in oklch, var(--ink) 38%, transparent);opacity:1;}
+.pf-tile-wide{grid-column:1/-1;}
 .pf-frame{display:flex;flex-direction:column;height:100%;}
 .pf-frame-bar{
   display:flex;
@@ -292,6 +293,7 @@ h2{font-weight:800;font-size:36px;}
   object-position:top;
   display:block;
 }
+.pf-tile-wide .pf-frame img{aspect-ratio:16/7;object-position:center;}
 .pf-overlay{
   position:absolute;
   inset:0;
@@ -407,5 +409,6 @@ h2{font-weight:800;font-size:36px;}
 @media (max-width:560px){
   .why-grid{grid-template-columns:1fr;}
   .portfolio-grid{grid-template-columns:1fr;}
+  .pf-tile-wide .pf-frame img{aspect-ratio:16/10;}
   .hero-stats{gap:24px;}
 }
