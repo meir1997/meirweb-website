@@ -25,27 +25,34 @@ const portfolioRail = document.getElementById('portfolioRail');
 if (portfolioRail) {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const desktopLayout = window.matchMedia('(min-width: 861px)');
   const baseSpeed = 0.32;
 
-  if (!reducedMotion && finePointer.matches) {
+  if (!reducedMotion && finePointer.matches && desktopLayout.matches) {
     const track = portfolioRail.querySelector('.portfolio-track');
     const originalCards = [...track.children];
-    const clonedCards = originalCards.map((card) => {
+    const makeClone = (card) => {
       const clone = card.cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
       clone.tabIndex = -1;
-      track.appendChild(clone);
       return clone;
-    });
+    };
+    const leadingCards = originalCards.map(makeClone);
+    const trailingCards = originalCards.map(makeClone);
+    track.prepend(...leadingCards);
+    track.append(...trailingCards);
 
     let cycleWidth = 0;
+    let position = 0;
     let targetSpeed = baseSpeed;
     let currentSpeed = baseSpeed;
     let animationFrame;
     let isVisible = false;
 
     const measureCycle = () => {
-      cycleWidth = clonedCards[0].offsetLeft - originalCards[0].offsetLeft;
+      cycleWidth = originalCards[0].offsetLeft - leadingCards[0].offsetLeft;
+      position = -cycleWidth;
+      track.style.transform = `translate3d(${position}px, 0, 0)`;
     };
 
     const animateRail = () => {
@@ -55,14 +62,14 @@ if (portfolioRail) {
       }
 
       currentSpeed += (targetSpeed - currentSpeed) * 0.08;
-      let nextScroll = portfolioRail.scrollLeft + currentSpeed;
+      position -= currentSpeed;
 
       if (cycleWidth) {
-        if (nextScroll >= cycleWidth) nextScroll -= cycleWidth;
-        if (nextScroll < 0) nextScroll += cycleWidth;
+        if (position <= -cycleWidth * 2) position += cycleWidth;
+        if (position >= 0) position -= cycleWidth;
       }
 
-      portfolioRail.scrollLeft = nextScroll;
+      track.style.transform = `translate3d(${position}px, 0, 0)`;
       animationFrame = window.requestAnimationFrame(animateRail);
     };
 
@@ -102,25 +109,50 @@ if (portfolioRail) {
       targetSpeed = baseSpeed;
       requestAnimation();
     });
-  }
 
-  portfolioRail.addEventListener('keydown', (event) => {
-    const movement = 340;
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      portfolioRail.scrollBy({ left: -movement, behavior: reducedMotion ? 'auto' : 'smooth' });
-    }
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      portfolioRail.scrollBy({ left: movement, behavior: reducedMotion ? 'auto' : 'smooth' });
-    }
-    if (event.key === 'Home') {
-      event.preventDefault();
-      portfolioRail.scrollTo({ left: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
-    }
-    if (event.key === 'End') {
-      event.preventDefault();
-      portfolioRail.scrollTo({ left: portfolioRail.scrollWidth, behavior: reducedMotion ? 'auto' : 'smooth' });
-    }
-  });
+    portfolioRail.addEventListener('keydown', (event) => {
+      const movement = 340;
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        position += movement;
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        position -= movement;
+      }
+      if (event.key === 'Home') {
+        event.preventDefault();
+        position = -cycleWidth;
+      }
+      if (event.key === 'End') {
+        event.preventDefault();
+        position = -cycleWidth * 2 + portfolioRail.clientWidth;
+      }
+      if (cycleWidth) {
+        if (position <= -cycleWidth * 2) position += cycleWidth;
+        if (position >= 0) position -= cycleWidth;
+      }
+      track.style.transform = `translate3d(${position}px, 0, 0)`;
+    });
+  } else {
+    portfolioRail.addEventListener('keydown', (event) => {
+      const movement = 340;
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        portfolioRail.scrollBy({ left: -movement, behavior: reducedMotion ? 'auto' : 'smooth' });
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        portfolioRail.scrollBy({ left: movement, behavior: reducedMotion ? 'auto' : 'smooth' });
+      }
+      if (event.key === 'Home') {
+        event.preventDefault();
+        portfolioRail.scrollTo({ left: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+      }
+      if (event.key === 'End') {
+        event.preventDefault();
+        portfolioRail.scrollTo({ left: portfolioRail.scrollWidth, behavior: reducedMotion ? 'auto' : 'smooth' });
+      }
+    });
+  }
 }

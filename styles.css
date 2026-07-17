@@ -252,15 +252,11 @@ h2{font-weight:800;font-size:36px;}
   width:100vw;
   margin-inline:calc(50% - 50vw);
   padding-inline:max(28px,calc((100vw - var(--max)) / 2 + 28px));
-  overflow-x:auto;
-  overscroll-behavior-inline:contain;
-  scroll-behavior:smooth;
-  scrollbar-width:none;
+  overflow:hidden;
   cursor:ew-resize;
 }
-.portfolio-rail::-webkit-scrollbar{display:none;}
 .portfolio-rail:focus-visible{outline:2px solid var(--accent);outline-offset:-3px;}
-.portfolio-track{display:flex;gap:16px;width:max-content;padding:4px 0 16px;direction:ltr;}
+.portfolio-track{display:flex;gap:16px;width:max-content;padding:4px 0 16px;direction:ltr;will-change:transform;}
 .pf-tile{
   position:relative;
   display:block;
@@ -324,7 +320,8 @@ h2{font-weight:800;font-size:36px;}
 .portfolio-hint{margin-top:12px;text-align:center;font-size:14px;color:var(--ink-55);}
 @media (hover:none){
   .pf-overlay{opacity:1;background:linear-gradient(to top, color-mix(in oklch, var(--ink) 88%, transparent) 0%, transparent 55%);}
-  .portfolio-rail{cursor:grab;scroll-snap-type:inline mandatory;}
+  .portfolio-rail{cursor:grab;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:inline mandatory;scrollbar-width:none;}
+  .portfolio-rail::-webkit-scrollbar{display:none;}
   .pf-tile{scroll-snap-align:start;}
 }
 
@@ -409,7 +406,8 @@ h2{font-weight:800;font-size:36px;}
   .browser-mock{display:none;}
   .why-grid{grid-template-columns:1fr 1fr;}
   .services-grid{grid-template-columns:1fr;}
-  .portfolio-rail{padding-inline:28px;cursor:auto;scroll-snap-type:inline mandatory;}
+  .portfolio-rail{padding-inline:28px;cursor:auto;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:inline mandatory;scrollbar-width:none;}
+  .portfolio-rail::-webkit-scrollbar{display:none;}
   .pf-tile{flex-basis:clamp(260px,72vw,380px);scroll-snap-align:start;}
   .portfolio-hint{display:none;}
   .process-grid{grid-template-columns:1fr;}
