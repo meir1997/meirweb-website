@@ -51,7 +51,8 @@ if (portfolioRail) {
     let isVisible = false;
 
     const measureCycle = () => {
-      cycleWidth = originalCards[0].offsetLeft - leadingCards[0].offsetLeft;
+      // offsetLeft may be negative inside this RTL page; the loop only needs distance.
+      cycleWidth = Math.abs(originalCards[0].offsetLeft - leadingCards[0].offsetLeft);
       position = -cycleWidth;
       track.style.transform = `translate3d(${position}px, 0, 0)`;
     };
