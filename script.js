@@ -37,9 +37,7 @@ if (portfolioRail) {
       clone.tabIndex = -1;
       return clone;
     };
-    const leadingCards = originalCards.map(makeClone);
     const trailingCards = originalCards.map(makeClone);
-    track.prepend(...leadingCards);
     track.append(...trailingCards);
 
     let cycleWidth = 0;
@@ -50,8 +48,8 @@ if (portfolioRail) {
     let isVisible = false;
 
     const measureCycle = () => {
-      cycleWidth = originalCards[0].offsetLeft - leadingCards[0].offsetLeft;
-      position = -cycleWidth;
+      cycleWidth = trailingCards[0].offsetLeft - originalCards[0].offsetLeft;
+      position = 0;
       track.style.transform = `translate3d(${position}px, 0, 0)`;
     };
 
@@ -65,7 +63,7 @@ if (portfolioRail) {
       position -= currentSpeed;
 
       if (cycleWidth) {
-        if (position <= -cycleWidth * 2) position += cycleWidth;
+        if (position <= -cycleWidth) position += cycleWidth;
         if (position >= 0) position -= cycleWidth;
       }
 
@@ -122,14 +120,14 @@ if (portfolioRail) {
       }
       if (event.key === 'Home') {
         event.preventDefault();
-        position = -cycleWidth;
+        position = 0;
       }
       if (event.key === 'End') {
         event.preventDefault();
-        position = -cycleWidth * 2 + portfolioRail.clientWidth;
+        position = -cycleWidth + portfolioRail.clientWidth;
       }
       if (cycleWidth) {
-        if (position <= -cycleWidth * 2) position += cycleWidth;
+        if (position <= -cycleWidth) position += cycleWidth;
         if (position >= 0) position -= cycleWidth;
       }
       track.style.transform = `translate3d(${position}px, 0, 0)`;
