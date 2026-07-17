@@ -24,118 +24,19 @@ const portfolioRail = document.getElementById('portfolioRail');
 
 if (portfolioRail) {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const desktopLayout = window.matchMedia('(min-width: 861px)');
-  const baseSpeed = 0.32;
 
-  if (!reducedMotion && finePointer.matches && desktopLayout.matches) {
+  if (!reducedMotion && desktopLayout.matches) {
     const track = portfolioRail.querySelector('.portfolio-track');
-    const originalCards = [...track.children];
-    const makeClone = (card) => {
-      const clone = card.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      clone.tabIndex = -1;
-      return clone;
-    };
-    // Three identical groups keep the rail filled when moving in either direction.
-    const leadingCards = originalCards.map(makeClone);
-    const trailingCards = originalCards.map(makeClone);
-    track.prepend(...leadingCards);
-    track.append(...trailingCards);
+    const cards = [...track.children];
+    const group = document.createElement('div');
+    group.className = 'portfolio-group';
+    cards.forEach((card) => group.appendChild(card));
 
-    let cycleWidth = 0;
-    let position = 0;
-    let targetSpeed = baseSpeed;
-    let currentSpeed = baseSpeed;
-    let animationFrame;
-    let isVisible = false;
-
-    const measureCycle = () => {
-      // offsetLeft may be negative inside this RTL page; the loop only needs distance.
-      cycleWidth = Math.abs(originalCards[0].offsetLeft - leadingCards[0].offsetLeft);
-      position = -cycleWidth;
-      track.style.transform = `translate3d(${position}px, 0, 0)`;
-    };
-
-    const animateRail = () => {
-      if (!isVisible) {
-        animationFrame = undefined;
-        return;
-      }
-
-      currentSpeed += (targetSpeed - currentSpeed) * 0.08;
-      position -= currentSpeed;
-
-      if (cycleWidth) {
-        if (position <= -cycleWidth * 2) position += cycleWidth;
-        if (position >= 0) position -= cycleWidth;
-      }
-
-      track.style.transform = `translate3d(${position}px, 0, 0)`;
-      animationFrame = window.requestAnimationFrame(animateRail);
-    };
-
-    const requestAnimation = () => {
-      if (!animationFrame && isVisible) animationFrame = window.requestAnimationFrame(animateRail);
-    };
-
-    const updateDirection = (event) => {
-      const bounds = portfolioRail.getBoundingClientRect();
-      const edgeZone = Math.min(220, bounds.width * 0.22);
-      const distanceFromLeft = event.clientX - bounds.left;
-      const distanceFromRight = bounds.right - event.clientX;
-
-      if (distanceFromLeft < edgeZone) {
-        targetSpeed = -Math.pow((edgeZone - distanceFromLeft) / edgeZone, 1.6) * 8;
-      } else if (distanceFromRight < edgeZone) {
-        targetSpeed = Math.pow((edgeZone - distanceFromRight) / edgeZone, 1.6) * 8;
-      } else {
-        targetSpeed = 0;
-      }
-
-      requestAnimation();
-    };
-
-    const visibilityObserver = new IntersectionObserver((entries) => {
-      isVisible = entries[0].isIntersecting;
-      if (isVisible) requestAnimation();
-    }, { threshold: 0.1 });
-
-    visibilityObserver.observe(portfolioRail);
-    new ResizeObserver(measureCycle).observe(track);
-    window.requestAnimationFrame(measureCycle);
-
-    portfolioRail.addEventListener('pointerenter', updateDirection);
-    portfolioRail.addEventListener('pointermove', updateDirection);
-    portfolioRail.addEventListener('pointerleave', () => {
-      targetSpeed = baseSpeed;
-      requestAnimation();
-    });
-
-    portfolioRail.addEventListener('keydown', (event) => {
-      const movement = 340;
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        position += movement;
-      }
-      if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        position -= movement;
-      }
-      if (event.key === 'Home') {
-        event.preventDefault();
-        position = -cycleWidth;
-      }
-      if (event.key === 'End') {
-        event.preventDefault();
-        position = -cycleWidth * 2 + portfolioRail.clientWidth;
-      }
-      if (cycleWidth) {
-        if (position <= -cycleWidth * 2) position += cycleWidth;
-        if (position >= 0) position -= cycleWidth;
-      }
-      track.style.transform = `translate3d(${position}px, 0, 0)`;
-    });
+    const duplicate = group.cloneNode(true);
+    duplicate.setAttribute('aria-hidden', 'true');
+    duplicate.querySelectorAll('a').forEach((link) => link.tabIndex = -1);
+    track.replaceChildren(group, duplicate);
   } else {
     portfolioRail.addEventListener('keydown', (event) => {
       const movement = 340;
