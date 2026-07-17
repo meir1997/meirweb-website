@@ -37,6 +37,54 @@ if (portfolioRail) {
     duplicate.setAttribute('aria-hidden', 'true');
     duplicate.querySelectorAll('a').forEach((link) => link.tabIndex = -1);
     track.replaceChildren(group, duplicate);
+
+    let activeDirection = null;
+
+    const setGalleryDirection = (direction) => {
+      if (direction === activeDirection) return;
+      activeDirection = direction;
+
+      if (direction) {
+        portfolioRail.dataset.direction = direction;
+      } else {
+        delete portfolioRail.dataset.direction;
+      }
+
+      const animations = track.getAnimations();
+      if (animations.length) {
+        animations.forEach((animation) => {
+          if (direction === 'center') {
+            animation.pause();
+            return;
+          }
+          animation.playbackRate = direction === 'left' ? -1 : 1;
+          animation.play();
+        });
+        return;
+      }
+
+      track.style.animationPlayState = direction === 'center' ? 'paused' : 'running';
+      track.style.animationDirection = direction === 'left' ? 'reverse' : 'normal';
+    };
+
+    const updateGalleryDirection = (event) => {
+      const bounds = portfolioRail.getBoundingClientRect();
+      const activeZone = Math.min(260, bounds.width * 0.28);
+      const pointerFromLeft = event.clientX - bounds.left;
+      const pointerFromRight = bounds.right - event.clientX;
+
+      if (pointerFromLeft < activeZone) {
+        setGalleryDirection('left');
+      } else if (pointerFromRight < activeZone) {
+        setGalleryDirection('right');
+      } else {
+        setGalleryDirection('center');
+      }
+    };
+
+    portfolioRail.addEventListener('pointerenter', updateGalleryDirection);
+    portfolioRail.addEventListener('pointermove', updateGalleryDirection);
+    portfolioRail.addEventListener('pointerleave', () => setGalleryDirection(null));
   } else {
     portfolioRail.addEventListener('keydown', (event) => {
       const movement = 340;
