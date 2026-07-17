@@ -369,6 +369,7 @@ h2{font-weight:800;font-size:36px;}
 
 /* ---------- Responsive ---------- */
 @media (max-width:860px){
+  .header-inner{padding-inline:28px;}
   .nav{
     position:fixed;
     top:72px;
