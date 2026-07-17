@@ -227,9 +227,10 @@ h2{font-weight:800;font-size:36px;}
 /* ---------- Why grid ---------- */
 .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
 .why-card{padding:26px 22px;border-radius:16px;background:var(--ink-05);}
-.why-icon{width:42px;height:42px;border-radius:11px;margin-bottom:16px;}
-.why-icon-accent{background:var(--accent);}
-.why-icon-accent2{background:var(--accent2);}
+.why-icon{width:44px;height:44px;margin-bottom:16px;display:grid;place-items:center;}
+.why-icon svg{width:40px;height:40px;}
+.why-icon-accent{color:var(--accent);}
+.why-icon-accent2{color:var(--accent2);}
 .why-title{font-weight:700;font-size:17px;margin-bottom:6px;}
 .why-desc{font-size:14.5px;line-height:1.6;color:var(--ink-62);}
 
