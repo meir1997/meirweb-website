@@ -347,6 +347,7 @@ h2{font-weight:800;font-size:36px;}
 .contact-inner h2{margin-bottom:14px;}
 .contact-inner .section-lead{margin:0 0 34px;max-width:none;}
 .contact-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
+.contact-actions .btn{width:290px;min-height:60px;justify-content:center;}
 .contact-email{font-size:14.5px;color:var(--ink-55);}
 .contact-email a{color:var(--accent);font-weight:600;}
 
@@ -396,6 +397,8 @@ h2{font-weight:800;font-size:36px;}
 }
 
 @media (max-width:560px){
+  .contact-actions{align-items:stretch;flex-direction:column;}
+  .contact-actions .btn{width:100%;}
   .why-grid{grid-template-columns:1fr;}
   .portfolio-grid{grid-template-columns:1fr;}
   .pf-tile-wide .pf-frame img{aspect-ratio:16/10;}
