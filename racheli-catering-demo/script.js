@@ -17,6 +17,14 @@ nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () =>
   menuButton.setAttribute('aria-expanded', 'false');
 }));
 
+const fullMenus = [...document.querySelectorAll('.full-menu')];
+fullMenus.forEach((menu) => menu.addEventListener('toggle', () => {
+  if (!menu.open) return;
+  fullMenus.forEach((otherMenu) => {
+    if (otherMenu !== menu) otherMenu.open = false;
+  });
+}));
+
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (reduceMotion || !('IntersectionObserver' in window)) {
   document.querySelectorAll('.reveal').forEach((element) => element.classList.add('in-view'));
