@@ -247,7 +247,7 @@ h2{font-weight:800;font-size:36px;}
 .service-card p{font-size:15px;line-height:1.65;color:var(--ink-62);}
 
 /* ---------- Portfolio (odesign-style dense tiles) ---------- */
-.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.portfolio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
 .pf-tile{
   position:relative;
   display:block;
@@ -259,7 +259,6 @@ h2{font-weight:800;font-size:36px;}
   transition:transform .25s, box-shadow .25s;
 }
 .pf-tile:hover{transform:translateY(-5px);box-shadow:0 30px 56px -26px color-mix(in oklch, var(--ink) 38%, transparent);opacity:1;}
-.pf-tile-wide{grid-column:1/-1;}
 .pf-frame{display:flex;flex-direction:column;height:100%;}
 .pf-frame-bar{
   display:flex;
@@ -281,7 +280,6 @@ h2{font-weight:800;font-size:36px;}
   object-position:top;
   display:block;
 }
-.pf-tile-wide .pf-frame img{aspect-ratio:16/7;object-position:center;}
 .pf-overlay{
   position:absolute;
   inset:0;
@@ -403,6 +401,5 @@ h2{font-weight:800;font-size:36px;}
   .contact-actions .btn{width:100%;}
   .why-grid{grid-template-columns:1fr;}
   .portfolio-grid{grid-template-columns:1fr;}
-  .pf-tile-wide .pf-frame img{aspect-ratio:16/10;}
   .hero-stats{gap:24px;}
 }
