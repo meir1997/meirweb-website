@@ -289,7 +289,7 @@ h2{font-weight:800;font-size:36px;}
   opacity:1;
   transform:translateY(-50%) scale(1);
 }
-.portfolio-rail[data-direction="right"] .portfolio-direction-cue svg{transform:rotate(180deg);}
+.portfolio-rail[data-direction="left"] .portfolio-direction-cue svg{transform:rotate(180deg);}
 @media (min-width:861px) and (prefers-reduced-motion:no-preference){
   .portfolio-track{animation:portfolio-marquee 54s linear infinite;}
 }

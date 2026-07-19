@@ -57,14 +57,14 @@ if (portfolioRail) {
             animation.pause();
             return;
           }
-          animation.playbackRate = direction === 'left' ? -1 : 1;
+          animation.playbackRate = direction === 'left' ? 1 : -1;
           animation.play();
         });
         return;
       }
 
       track.style.animationPlayState = direction === 'center' ? 'paused' : 'running';
-      track.style.animationDirection = direction === 'left' ? 'reverse' : 'normal';
+      track.style.animationDirection = direction === 'left' ? 'normal' : 'reverse';
     };
 
     const updateGalleryDirection = (event) => {
