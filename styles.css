@@ -251,7 +251,7 @@ h2{font-weight:800;font-size:36px;}
 .portfolio-rail{
   width:100vw;
   margin-inline:calc(50% - 50vw);
-  padding-inline:max(28px,calc((100vw - var(--max)) / 2 + 28px));
+  padding-inline:0;
   position:relative;
   overflow:hidden;
   cursor:ew-resize;
@@ -280,12 +280,12 @@ h2{font-weight:800;font-size:36px;}
 }
 .portfolio-direction-cue svg{width:29px;height:29px;}
 .portfolio-rail[data-direction="left"] .portfolio-direction-cue{
-  left:max(28px,calc((100vw - var(--max)) / 2 + 28px));
+  left:24px;
   opacity:1;
   transform:translateY(-50%) scale(1);
 }
 .portfolio-rail[data-direction="right"] .portfolio-direction-cue{
-  right:max(28px,calc((100vw - var(--max)) / 2 + 28px));
+  right:24px;
   opacity:1;
   transform:translateY(-50%) scale(1);
 }
