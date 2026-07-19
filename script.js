@@ -20,6 +20,33 @@ window.addEventListener('scroll', () => {
   header.style.boxShadow = window.scrollY > 10 ? '0 1px 0 rgba(0,0,0,.3)' : 'none';
 });
 
+const hero = document.getElementById('top');
+const heroAmbient = document.getElementById('heroAmbient');
+
+if (hero && heroAmbient && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  let ambientFrame = null;
+
+  const updateAmbientPosition = (event) => {
+    if (ambientFrame) cancelAnimationFrame(ambientFrame);
+    ambientFrame = requestAnimationFrame(() => {
+      const bounds = hero.getBoundingClientRect();
+      const xRatio = (event.clientX - bounds.left) / bounds.width - 0.5;
+      const yRatio = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+      hero.style.setProperty('--ambient-x', `${xRatio * 22}px`);
+      hero.style.setProperty('--ambient-y', `${yRatio * 16}px`);
+      hero.style.setProperty('--ambient-tilt', `${xRatio * 1.4}deg`);
+    });
+  };
+
+  hero.addEventListener('pointermove', updateAmbientPosition, { passive: true });
+  hero.addEventListener('pointerleave', () => {
+    hero.style.setProperty('--ambient-x', '0px');
+    hero.style.setProperty('--ambient-y', '0px');
+    hero.style.setProperty('--ambient-tilt', '0deg');
+  });
+}
+
 const portfolioRail = document.getElementById('portfolioRail');
 
 if (portfolioRail) {
