@@ -33,12 +33,29 @@ if (portfolioRail) {
     group.className = 'portfolio-group';
     cards.forEach((card) => group.appendChild(card));
 
-    const duplicate = group.cloneNode(true);
-    duplicate.setAttribute('aria-hidden', 'true');
-    duplicate.querySelectorAll('a').forEach((link) => link.tabIndex = -1);
-    track.replaceChildren(group, duplicate);
+    const createDuplicate = () => {
+      const duplicate = group.cloneNode(true);
+      duplicate.setAttribute('aria-hidden', 'true');
+      duplicate.querySelectorAll('a').forEach((link) => link.tabIndex = -1);
+      return duplicate;
+    };
+
+    track.replaceChildren(group, createDuplicate());
 
     let activeDirection = null;
+    let groupWidth = 0;
+    let position = 0;
+    let previousTime = performance.now();
+    const speed = 42;
+
+    const measureAndFillTrack = () => {
+      groupWidth = group.getBoundingClientRect().width;
+      const requiredWidth = portfolioRail.clientWidth + groupWidth;
+      while (track.scrollWidth < requiredWidth) {
+        track.appendChild(createDuplicate());
+      }
+      if (groupWidth > 0) position %= groupWidth;
+    };
 
     const setGalleryDirection = (direction) => {
       if (direction === activeDirection) return;
@@ -49,22 +66,20 @@ if (portfolioRail) {
       } else {
         delete portfolioRail.dataset.direction;
       }
+    };
 
-      const animations = track.getAnimations();
-      if (animations.length) {
-        animations.forEach((animation) => {
-          if (direction === 'center') {
-            animation.pause();
-            return;
-          }
-          animation.playbackRate = direction === 'left' ? 1 : -1;
-          animation.play();
-        });
-        return;
+    const animateGallery = (currentTime) => {
+      const elapsed = Math.min((currentTime - previousTime) / 1000, 0.05);
+      previousTime = currentTime;
+
+      if (activeDirection !== 'center' && groupWidth > 0) {
+        const movementDirection = activeDirection === 'right' ? -1 : 1;
+        position = (position + speed * elapsed * movementDirection) % groupWidth;
+        if (position < 0) position += groupWidth;
+        track.style.transform = `translate3d(${-position}px, 0, 0)`;
       }
 
-      track.style.animationPlayState = direction === 'center' ? 'paused' : 'running';
-      track.style.animationDirection = direction === 'left' ? 'normal' : 'reverse';
+      requestAnimationFrame(animateGallery);
     };
 
     const updateGalleryDirection = (event) => {
@@ -85,6 +100,10 @@ if (portfolioRail) {
     portfolioRail.addEventListener('pointerenter', updateGalleryDirection);
     portfolioRail.addEventListener('pointermove', updateGalleryDirection);
     portfolioRail.addEventListener('pointerleave', () => setGalleryDirection(null));
+    window.addEventListener('resize', measureAndFillTrack, { passive: true });
+
+    measureAndFillTrack();
+    requestAnimationFrame(animateGallery);
   } else {
     portfolioRail.addEventListener('keydown', (event) => {
       const movement = 340;

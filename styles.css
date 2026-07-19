@@ -259,7 +259,7 @@ h2{font-weight:800;font-size:36px;}
 }
 .portfolio-rail:focus-visible{outline:2px solid var(--accent);outline-offset:-3px;}
 .portfolio-track{display:flex;width:max-content;direction:ltr;will-change:transform;}
-.portfolio-group{display:flex;gap:16px;flex:0 0 auto;padding:4px 0 16px;}
+.portfolio-group{display:flex;gap:16px;flex:0 0 auto;padding:4px 16px 16px 0;}
 .portfolio-direction-cue{
   position:absolute;
   top:50%;
@@ -290,10 +290,6 @@ h2{font-weight:800;font-size:36px;}
   transform:translateY(-50%) scale(1);
 }
 .portfolio-rail[data-direction="left"] .portfolio-direction-cue svg{transform:rotate(180deg);}
-@media (min-width:861px) and (prefers-reduced-motion:no-preference){
-  .portfolio-track{animation:portfolio-marquee 54s linear infinite;}
-}
-@keyframes portfolio-marquee{to{transform:translateX(-50%);}}
 .pf-tile{
   position:relative;
   display:block;
