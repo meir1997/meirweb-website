@@ -20,7 +20,7 @@ python3 -m http.server 8000
 ## מבנה
 
 - `index.html` — עמוד יחיד עם כל הסעיפים
-- `styles.css` — עיצוב, RTL, responsive
+- `styles.css` — עיצוב, תמיכה בעברית ורספונסיביות
 - `script.js` — תפריט נייד, שנה בפוטר
 - `assets/` — פאביקון ונכסים נוספים
 - `CNAME` — מיפוי הדומיין הראשי
