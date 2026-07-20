@@ -530,6 +530,22 @@ h2{font-weight:800;font-size:36px;}
 .footer-brand{display:inline-flex;align-items:center;gap:9px;}
 .footer-brand img{width:36px;height:36px;object-fit:contain;}
 
+/* ---------- Privacy ---------- */
+.privacy-page{min-height:100vh;display:flex;flex-direction:column;}
+.privacy-page main{flex:1;}
+.privacy-header{position:static;}
+.privacy-header .header-inner{padding-inline:28px;}
+.privacy-back{font-weight:700;color:var(--accent);}
+.privacy-wrap{max-width:820px;padding-top:72px;padding-bottom:84px;}
+.privacy-wrap h1{font-size:clamp(38px,6vw,62px);line-height:1.12;margin-bottom:14px;}
+.privacy-updated{color:var(--ink-55);margin-bottom:42px;}
+.privacy-intro{font-size:19px;color:var(--ink-68);margin-bottom:42px;}
+.privacy-section{padding:28px 0;border-top:1px solid var(--ink-08);}
+.privacy-section h2{font-size:24px;margin-bottom:12px;}
+.privacy-section p,.privacy-section li{color:var(--ink-68);}
+.privacy-section ul{list-style:disc;padding-inline-start:22px;display:grid;gap:7px;}
+.privacy-section a{color:var(--accent);font-weight:600;}
+
 /* ---------- Responsive ---------- */
 @media (max-width:860px){
   .header-inner{padding-inline:28px;}
