@@ -203,7 +203,7 @@ button{cursor:pointer}
 .recipe-cta{background:var(--green-deep);color:#fff}
 .recipe-cta-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
 .recipe-cta h2{margin:0;font:600 clamp(48px,6vw,82px)/.98 var(--serif)}
-.photo-credits{padding:18px 0;background:#eee9dc;color:#756c64;font-size:11px;text-align:center}
+.photo-credits{padding:18px 0;background:#eee9dc;color:#6c625a;font-size:11px;text-align:center}
 .photo-credits a{text-decoration:underline;text-underline-offset:2px}
 .site-footer{background:#211b17;color:#fff;padding-top:60px}
 .footer-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:45px;border-bottom:1px solid rgba(255,255,255,.13)}
